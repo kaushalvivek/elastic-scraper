@@ -1,28 +1,24 @@
-const mapService = require('./map.service');
+const dbService = require('./db.service');
 const loggerService = require('./logger.service');
 
 exports.handler = async function (messages) {
     messages.forEach((message) => {
-        try {
-            processMessage(message);
-        }
-        catch (e) {
-            throw new Error(`$Error encountered in handling message : ${e.message}`);
-        }
+        processMessage(message);
     });
 }
 
 async function processMessage(message) {
-    try{
-        const map = await mapService.getMapForSource(message.source);
+    try {
+        const map = await dbService.getMapForSource(message.source);
         const feedback = getFeedbackFromMessage(message, map);
-        const metadata = getMetadataFromMessage(message, map);
+        const metadata = getMetadataFromMessage(message, map, feedback.metadataId);
         await dbService.addFeedback(feedback);
         await dbService.addMetadata(metadata);
+        loggerService.logInfo(`message processed successfully`, message);
         return;
     }
-    catch(e) {
-        loggerService.log(e);
+    catch (e) {
+        loggerService.logError(`error encountered in processing message`, e);
         throw new Error(`$Error encountered in processing message : ${e.message}`);
     }
 }
@@ -30,20 +26,20 @@ async function processMessage(message) {
 function getFeedbackFromMessage(message, map) {
     const feedback = {};
     ```
-    - create a feedback object
     - process each message and fill the feedback object
       according to the source specific mapping
+    - generate a uuid metadataId
     - return the feedback object
     ```
     return feedback;
 }
 
-function getMetadataFromMessage(message, map) {
+function getMetadataFromMessage(message, map, id) {
     const metadata = {};
     ```
-    - create a metadata object
     - process each message and fill the metadata object
       exclude fields added to feedback in source-specific mapping
+    - assign metadataId using 'id' passed
     - return the metadata object
     ```
     return metadata;
