@@ -1,4 +1,4 @@
-const config = require('./src/config');
+const config = require('./config');
 const helper = require('./src/services/helper.service');
 const messageService = require('./src/services/message.service');
 

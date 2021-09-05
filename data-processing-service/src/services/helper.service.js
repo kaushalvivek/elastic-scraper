@@ -1,7 +1,7 @@
 const Consumer = require('sqs-consumer');
 const aws = require('aws-sdk');
 const loggerService = require('./logger.service');
-const config = require('../config')
+const config = require('../../config')
 
 const sqsConfig = {
     apiVersion: config.aws.apiVersion,
