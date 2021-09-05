@@ -46,3 +46,11 @@ exports.sendLogToQueue = async function (log) {
         throw new Error(e.message)
     }
 }
+
+
+// can be optimized via caching
+exports.getMapForSource = async function(source) {
+    ```
+    send a post request to map-management-service and fetch map
+    ```
+}

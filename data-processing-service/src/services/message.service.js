@@ -1,5 +1,6 @@
-const dbService = require('./db.service');
-const loggerService = require('./logger.service');
+const DbService = require('./db.service');
+const LoggerService = require('./logger.service');
+const Helper = require('./helper.service');
 
 exports.handler = async function (messages) {
     messages.forEach((message) => {
@@ -9,16 +10,16 @@ exports.handler = async function (messages) {
 
 async function processMessage(message) {
     try {
-        const map = await dbService.getMapForSource(message.source);
+        const map = await Helper.getMapForSource(message.source);
         const feedback = getFeedbackFromMessage(message, map);
         const metadata = getMetadataFromMessage(message, map, feedback.metadataId);
-        await dbService.addFeedback(feedback);
-        await dbService.addMetadata(metadata);
-        loggerService.logInfo(`message processed successfully`, message);
+        await DbService.addFeedback(feedback);
+        await DbService.addMetadata(metadata);
+        LoggerService.logInfo(`message processed successfully`, message);
         return;
     }
     catch (e) {
-        loggerService.logError(`error encountered in processing message`, e);
+        LoggerService.logError(`error encountered in processing message`, e);
         throw new Error(`$Error encountered in processing message : ${e.message}`);
     }
 }

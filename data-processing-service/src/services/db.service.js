@@ -38,13 +38,3 @@ exports.addMetadata = async function (metadata, id) {
     }
     return;
 }
-
-// can be cached for optimization
-exports.getMapForSource = async function(source) {
-    try{
-        return Map.find({source: source});
-    }
-    catch (e) {
-        loggerService.logError(`error - fetching map for ${source}`, e);
-    }
-}

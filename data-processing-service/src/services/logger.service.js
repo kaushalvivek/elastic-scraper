@@ -1,11 +1,11 @@
-const helper = require('./helper.service')
+const Helper = require('./helper.service')
 
 exports.logInfo = async function (headline, content = null) {
     const infoLog = {};
     ```
     prepare info log based on passed parameters
     ```
-    await helper.sendLogToQueue(infoLog);
+    await Helper.sendLogToQueue(infoLog);
 }
 
 exports.logError = async function (headline, error) {
@@ -13,5 +13,5 @@ exports.logError = async function (headline, error) {
     ```
     prepare error log based on passed parameters
     ```
-    await helper.sendLogToQueue(errorLog);
+    await Helper.sendLogToQueue(errorLog);
 }
