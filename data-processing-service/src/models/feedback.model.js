@@ -7,6 +7,7 @@ const feedbackSchema = new Schema({
     channel: { type: String }, // eg. name of app, slack channel etc.
     content: { type: String, required: true }, // main message
     metadataId: {type: String}, // foreign key to connect with source-specific metadata
+    language : {type: String, required: true}, // eg. en, es
     name : {type: String}, // optional
     username : {type: String}, // optional
     // unique id, created_at, updated_at auto assigned by mongoDB

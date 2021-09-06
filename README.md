@@ -11,9 +11,9 @@ A 'stretchable' scraper, that can source data from heterogenous sources and stan
 - ✅ Multi-tenancy
 - ✅ metadata ingestion — each source has different metadata
 - ✅ transformation to an internal structure, which should
-    - support different types of feedback
-    - support source specific metadata
-    - have common record level attributes (language, source, info etc.)
+    - ✔ support different types of feedback
+    - ✔ support source specific metadata
+    - ✔ have common record level attributes (language, source, info etc.)
 
 ### Additional
 
@@ -71,6 +71,6 @@ All the services are dockerized, and a bare-bones docker-compose has been provid
 
 But I recommend deploying each service individually on an elastic deployment service provider, like AWS ECS. Auto-scaling and monitoring services would be much easier. Workflows can be cerated for this repository to directly push docker images of different services to AWS, from where, highly scalable deployments on ECS can be automated (ideally) after testing.
 
-## Future Extensions
+## Future Extensions    
 
 ## Drawbacks

@@ -9,6 +9,7 @@ exports.addFeedback = async function (feedback) {
         channel: feedback.channel,
         content: feedback.content,
         metadataId: feedback.metadataId,
+        language: feedback.language,
         name: feedback.name,
         username: feedback.username,
     })
