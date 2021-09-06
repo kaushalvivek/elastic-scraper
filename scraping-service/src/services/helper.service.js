@@ -11,7 +11,7 @@ aws.config.update(sqsConfig);
 
 const sqsClient = new aws.SQS({ apiVersion: config.aws.apiVersion })
 
-exports.sendLogToQueue = async function (log) {
+exports.sendToQueue = async function (queueUrl, message) {
     try {
         const params = {
             QueueUrl: queueUrl,
@@ -19,7 +19,7 @@ exports.sendLogToQueue = async function (log) {
         };
         params.Entries.push({
             Id: uuid.v4(),
-            MessageBody: JSON.stringify(log)
+            MessageBody: JSON.stringify(message)
         });
         await sqsClient.sendMessage(params).promise();
         return;
