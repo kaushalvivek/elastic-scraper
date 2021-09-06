@@ -1,0 +1,29 @@
+version: "3.3"
+services:
+  data-processing-service:
+    container_name: data-processing
+    restart: always
+    env_file: .env
+    build: ./data-processing/
+
+  scraping-service:
+    container_name: scraping
+    restart: always
+    env_file: .env
+    build: ./scraping/
+    ports:
+      - "${PORT}:${PORT}"
+  
+  map-management-service:
+    container_name: map-management
+    restart: always
+    env_file: .env
+    build: ./map-management/
+    ports:
+      - "${PORT}:${PORT}"
+  
+  logging-service:
+    container_name: logging
+    restart: always
+    env_file: .env
+    build: ./logging/

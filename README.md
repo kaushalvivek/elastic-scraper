@@ -1,32 +1,32 @@
 # Elastic Scraper
-A 'stretchable' scraper, that can source data from heterogenous sources and standardize for ML pipelines.
+
+A 'stretchable' scraper, that can source data from heterogenous sources and standardize before storage for for ML pipelines.
 
 ## Requirements
 
-- must support heterogenous feedback sources (Intercom, Play Store, Twitter, Discourse etc)
-- push and pull integration model
-- Multi-tenancy
-- metadata ingestion — each source has different metadata
-- transformation to an internal structure, which should
+### Primary
+
+- ✅ must support heterogenous feedback sources (Intercom, Play Store, Twitter, Discourse etc)
+- ❓ [push and pull integration model](https://resources.boomi.com/resources/home/push-vs-pull-avoid-misunderstandings-in-your-integration-efforts)
+- ✅ Multi-tenancy
+- ✅ metadata ingestion — each source has different metadata
+- ✅ transformation to an internal structure, which should
     - support different types of feedback
     - support source specific metadata
     - have common record level attributes (language, source, info etc.)
 
-## Bonus Requirements
+### Additional
 
-- Idempotency
-- Multiple feedback sources from same platform, eg. from two Play Store apps for the same user
-
-## Assumptions
-- Assuming a black box function to scrape each source and return response data.
+- ✅ Idempotency
+- ✅ Multiple feedback sources from same platform, eg. from two Play Store apps for the same user
 
 ## Initial Thoughts
-- identify common attributes among the different sources of feedback, first principles approach on what constitutes a feedback
+- Identify common attributes among the different sources of feedback, first principles approach on what constitutes a feedback. These core attributes will form the feedback schema, while the rest would constitute the metadata schema.
 - identification of functionalities :
     1. scraping from source
         - different sources would need different handling, should be scalable to new sources
         - need to think about source specification and handlers
-    2. metadata processing
+    2. metadata processing, there needs to be a scalable service that processes data and converts it into ML pipeline consumable formats
     3. breakdown into common record level attributes and source specific attributes
     4. pushing processed data to store
         - database should be scalable to new sources, channel agnostic
@@ -66,6 +66,10 @@ Taking a microservice based approach to ensure scalability and failure tolerance
 - the logging service constantly polls for logs and stores them / pushes them to a monitoring tool
 
 ## Deployment Approach
+
+All the services are dockerized, and a bare-bones docker-compose has been provided for deployment. The easiest way to deploy this tool is to `docker-compose up` on a server, after making suitable modifications to the `docker-compose` file, providing suitable scaling for the different services and an environment file.
+
+But I recommend deploying each service individually on an elastic deployment service provider, like AWS ECS. Auto-scaling and monitoring services would be much easier. Workflows can be cerated for this repository to directly push docker images of different services to AWS, from where, highly scalable deployments on ECS can be automated (ideally) after testing.
 
 ## Future Extensions
 
