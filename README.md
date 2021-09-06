@@ -1,6 +1,6 @@
 # Elastic Scraper
 
-A 'stretchable' scraper, that can source data from heterogenous sources and standardize before storage for for ML pipelines.
+A 'stretchable' scraper, that can source data from heterogenous sources and standardize before storage for consumption by ML pipelines.
 
 ## Requirements
 
@@ -65,12 +65,26 @@ Taking a microservice based approach to ensure scalability and failure tolerance
 - throughout this process, logs are queued to the logging queue
 - the logging service constantly polls for logs and stores them / pushes them to a monitoring tool
 
+## Other Flows
+
+### Adding a new source (or any CRUD operation on sources)
+- provide a plugin function to scraper-service to fetch data from the source.
+- use the map management service to create a new map for the new source.
+- send requests!
+
 ## Deployment Approach
 
 All the services are dockerized, and a bare-bones docker-compose has been provided for deployment. The easiest way to deploy this tool is to `docker-compose up` on a server, after making suitable modifications to the `docker-compose` file, providing suitable scaling for the different services and an environment file.
 
 But I recommend deploying each service individually on an elastic deployment service provider, like AWS ECS. Auto-scaling and monitoring services would be much easier. Workflows can be cerated for this repository to directly push docker images of different services to AWS, from where, highly scalable deployments on ECS can be automated (ideally) after testing.
 
-## Future Extensions    
+## Future Extensions
+
+- Add functionality to crawl the web for non-standardized sources, like, a product review on a personal blog posted on an an  early-adopter's website.
+- Add functionality to source non-textual data, audio/video feedback. Tap into mentions of target product on podcasts, youtube reviews etc.
 
 ## Drawbacks
+
+- Metadata, although stored for each source, isn't easily consumable. There can be approaches to improve on metadata storage.
+- There is further scope for simplification of the scraper service, by standardizing how a source is scraped and introducing plugins for new sources.
+- Tests haven't been written yet
